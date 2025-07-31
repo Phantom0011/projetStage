@@ -103,7 +103,7 @@ export async function login(credentials: LoginCredentials): Promise<{ access_tok
     formData.append("username", credentials.username)
     formData.append("password", credentials.password)
 
-    const response = await apiClient.post("/token", formData, {
+    const response = await apiClient.post("/auth/token", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
