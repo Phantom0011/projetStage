@@ -74,8 +74,8 @@ export default function AboutPage() {
             </div>
             <div>
               <Image
-                src="/images/about1.jpg?height=500&width=700"
-                alt="Mission Madatlas"
+                src="/images/about1.jpeg"
+                alt="Cartographie numérique de Madagascar - Interface SIG montrant les régions colorées"
                 width={600}
                 height={500}
                 className="rounded-lg shadow-lg"
@@ -178,13 +178,15 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="text-center">
               <CardHeader>
-                <Image
-                  src="/images/logoUF.jpg"
-                  alt="Université de Fianarantsoa"
-                  width={200}
-                  height={100}
-                  className="mx-auto mb-4"
-                />
+                <div className="w-48 h-32 mx-auto mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4">
+                  <Image
+                    src="/images/logoUF.jpg"
+                    alt="Université de Fianarantsoa"
+                    width={180}
+                    height={120}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
                 <CardTitle>Université de Fianarantsoa</CardTitle>
                 <CardDescription>Partenaire fondateur</CardDescription>
               </CardHeader>
@@ -197,13 +199,15 @@ export default function AboutPage() {
 
             <Card className="text-center">
               <CardHeader>
-                <Image
-                  src="/images/UBMlogo.jpg"
-                  alt="Université de Bordeaux"
-                  width={200}
-                  height={100}
-                  className="mx-auto mb-4"
-                />
+                <div className="w-48 h-32 mx-auto mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4">
+                  <Image
+                    src="/images/UBlogo.jpg"
+                    alt="Université de Bordeaux"
+                    width={180}
+                    height={120}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
                 <CardTitle>Université de Bordeaux</CardTitle>
                 <CardDescription>Partenaire académique</CardDescription>
               </CardHeader>
@@ -216,19 +220,21 @@ export default function AboutPage() {
 
             <Card className="text-center">
               <CardHeader>
-                <Image
-                  src="/images/UGELogo.jpg"
-                  alt="Université Gustave Eiffel"
-                  width={200}
-                  height={100}
-                  className="mx-auto mb-4"
-                />
+                <div className="w-48 h-32 mx-auto mb-4 flex items-center justify-center bg-gray-50 rounded-lg p-4">
+                  <Image
+                    src="/images/UGELogo.jpg"
+                    alt="Université Gustave Eiffel"
+                    width={180}
+                    height={120}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
                 <CardTitle>Université Gustave Eiffel</CardTitle>
                 <CardDescription>Partenaire technique</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 text-sm">
-                  Expertise technique et accès aux données géographiques de référence pour Madagascar.
+                  Expertise technique et accès aux technologies avancées de cartographie numérique et géomatique.
                 </p>
               </CardContent>
             </Card>
