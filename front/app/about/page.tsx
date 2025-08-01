@@ -74,7 +74,7 @@ export default function AboutPage() {
             </div>
             <div>
               <Image
-                src="/images/about1.jpeg"
+                src="/images/about1.jpg"
                 alt="Cartographie numérique de Madagascar - Interface SIG montrant les régions colorées"
                 width={600}
                 height={500}
