@@ -179,13 +179,13 @@ export default function AboutPage() {
             <Card className="text-center">
               <CardHeader>
                 <Image
-                  src="/placeholder.svg?height=100&width=200"
-                  alt="Université de Madagascar"
+                  src="/images/logoUF.jpg"
+                  alt="Université de Fianarantsoa"
                   width={200}
                   height={100}
                   className="mx-auto mb-4"
                 />
-                <CardTitle>Université de Madagascar</CardTitle>
+                <CardTitle>Université de Fianarantsoa</CardTitle>
                 <CardDescription>Partenaire fondateur</CardDescription>
               </CardHeader>
               <CardContent>
@@ -198,7 +198,7 @@ export default function AboutPage() {
             <Card className="text-center">
               <CardHeader>
                 <Image
-                  src="/placeholder.svg?height=100&width=200"
+                  src="/images/UBMlogo.jpg"
                   alt="Université de Bordeaux"
                   width={200}
                   height={100}
@@ -217,13 +217,13 @@ export default function AboutPage() {
             <Card className="text-center">
               <CardHeader>
                 <Image
-                  src="/placeholder.svg?height=100&width=200"
-                  alt="Institut National de Géographie"
+                  src="/images/UGELogo.jpg"
+                  alt="Université Gustave Eiffel"
                   width={200}
                   height={100}
                   className="mx-auto mb-4"
                 />
-                <CardTitle>Institut National de Géographie</CardTitle>
+                <CardTitle>Université Gustave Eiffel</CardTitle>
                 <CardDescription>Partenaire technique</CardDescription>
               </CardHeader>
               <CardContent>
