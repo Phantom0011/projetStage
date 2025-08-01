@@ -255,7 +255,7 @@ export default function HomePage() {
                   }`}
                 >
                   <Image
-                    src="/images/madatlas-conference.jpg"
+                    src="/images/imageMenu.jpg"
                     alt="Conférence officielle du projet Madatlas - Présentation des partenariats académiques"
                     width={600}
                     height={700}
