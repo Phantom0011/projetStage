@@ -74,7 +74,7 @@ export default function AboutPage() {
             </div>
             <div>
               <Image
-                src="/placeholder.svg?height=500&width=600"
+                src="/images/about1.jpg?height=500&width=700"
                 alt="Mission Madatlas"
                 width={600}
                 height={500}
