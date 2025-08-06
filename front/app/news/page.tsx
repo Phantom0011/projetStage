@@ -56,7 +56,6 @@ export default function NewsPage() {
         setPosts(fetchedPosts)
       } catch (error) {
         console.error("Failed to fetch posts:", error)
-        // Fallback to empty array if API fails
         setPosts([])
       } finally {
         setLoading(false)
@@ -203,11 +202,17 @@ export default function NewsPage() {
                         {article.author}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {article.tags.slice(0, 3).map((tag, tagIndex) => (
-                          <Badge key={tagIndex} variant="outline" className="text-xs">
-                            {tag}
+                        {Array.isArray(article.tags) && article.tags.length > 0 ? (
+                          article.tags.slice(0, 3).map((tag, tagIndex) => (
+                            <Badge key={tagIndex} variant="outline" className="text-xs">
+                              {tag}
+                            </Badge>
+                          ))
+                        ) : (
+                          <Badge variant="outline" className="text-xs">
+                            Aucun tag
                           </Badge>
-                        ))}
+                        )}
                       </div>
                       <Button
                         variant="outline"
@@ -308,11 +313,17 @@ export default function NewsPage() {
                         {article.author}
                       </div>
                       <div className="flex flex-wrap gap-1">
-                        {article.tags.slice(0, 2).map((tag, tagIndex) => (
-                          <Badge key={tagIndex} variant="outline" className="text-xs">
-                            {tag}
+                        {Array.isArray(article.tags) && article.tags.length > 0 ? (
+                          article.tags.slice(0, 2).map((tag, tagIndex) => (
+                            <Badge key={tagIndex} variant="outline" className="text-xs">
+                              {tag}
+                            </Badge>
+                          ))
+                        ) : (
+                          <Badge variant="outline" className="text-xs">
+                            Aucun tag
                           </Badge>
-                        ))}
+                        )}
                       </div>
                       <Button variant="outline" size="sm" className="w-full bg-transparent" asChild>
                         <Link href={`/news/${article.id}`}>
