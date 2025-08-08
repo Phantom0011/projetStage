@@ -45,7 +45,7 @@ const API_BASE_URL = getApiBaseUrl()
 // Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -70,7 +70,6 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
       removeToken()
       if (typeof window !== "undefined") {
         window.location.href = "/login"
@@ -142,10 +141,18 @@ export async function getPosts(type?: string): Promise<Post[]> {
   try {
     const params = type ? { type } : {}
     const response = await apiClient.get("/posts", { params })
-    return response.data
+    return response.data.map((post: any) => ({
+      ...post,
+      excerpt: post.excerpt || "",
+      category: post.category || "Non classé",
+      date: post.date || new Date().toISOString().split("T")[0],
+      readTime: post.readTime || "5 min",
+      image: post.image || undefined,
+      featured: post.featured || false,
+      tags: Array.isArray(post.tags) ? post.tags : [],
+    }))
   } catch (error) {
     console.error("Error fetching posts:", error)
-    // Return mock data as fallback
     return getMockPosts()
   }
 }
@@ -153,10 +160,19 @@ export async function getPosts(type?: string): Promise<Post[]> {
 export async function getPost(id: number): Promise<Post> {
   try {
     const response = await apiClient.get(`/posts/${id}`)
-    return response.data
+    const post = response.data
+    return {
+      ...post,
+      excerpt: post.excerpt || "",
+      category: post.category || "Non classé",
+      date: post.date || new Date().toISOString().split("T")[0],
+      readTime: post.readTime || "5 min",
+      image: post.image || undefined,
+      featured: post.featured || false,
+      tags: Array.isArray(post.tags) ? post.tags : [],
+    }
   } catch (error) {
     console.error("Error fetching post:", error)
-    // Return mock post as fallback
     const mockPosts = getMockPosts()
     const post = mockPosts.find((p) => p.id === id)
     if (post) {
@@ -204,7 +220,6 @@ export async function deletePost(id: number, token: string): Promise<void> {
   }
 }
 
-// Additional API functions
 export async function uploadImage(file: File, token: string): Promise<{ url: string }> {
   try {
     const formData = new FormData()
@@ -229,7 +244,6 @@ export async function getCategories(): Promise<string[]> {
     return response.data
   } catch (error) {
     console.error("Error fetching categories:", error)
-    // Return default categories as fallback
     return ["Formation", "Partenariat", "Événement", "Technologie", "Recherche"]
   }
 }
@@ -255,7 +269,6 @@ export async function getStats(): Promise<{
     return response.data
   } catch (error) {
     console.error("Error fetching stats:", error)
-    // Return mock stats as fallback
     return {
       totalPosts: 0,
       featuredPosts: 0,
@@ -265,7 +278,7 @@ export async function getStats(): Promise<{
   }
 }
 
-// Mock data fallback
+// Mock data fallback (unchanged)
 function getMockPosts(): Post[] {
   return [
     {
@@ -386,5 +399,4 @@ export function removeToken(): void {
   }
 }
 
-// Export axios instance for custom requests
 export { apiClient }
