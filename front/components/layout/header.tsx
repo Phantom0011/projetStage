@@ -44,7 +44,7 @@ export default function Header() {
             <div className="relative">
               <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Image
-                  src="/images/logo-madatlas.jpg"
+                  src="/images/logo-madatlas.png"
                   alt="Madatlas Logo"
                   width={40}
                   height={40}
@@ -132,7 +132,7 @@ export default function Header() {
                 <div className="flex items-center space-x-3 mb-8">
                   <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center">
                     <Image
-                      src="/images/logo-madatlas.jpg"
+                      src="/images/logoMadatlas.png"
                       alt="Madatlas Logo"
                       width={40}
                       height={40}

@@ -26,7 +26,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center space-x-3 group">
               <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Image
-                  src="/images/logo-madatlas.jpg"
+                  src="/images/logoMadatlas.png"
                   alt="Madatlas Logo"
                   width={56}
                   height={56}
