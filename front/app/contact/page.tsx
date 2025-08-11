@@ -91,11 +91,11 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900">Adresse</h3>
                     <p className="text-gray-600">
-                      Université de Madagascar
+                      Université de Fianarantsoa
                       <br />
                       Département de Géographie
                       <br />
-                      BP 566, Antananarivo 101
+                      Fianarantsaoa 301
                       <br />
                       Madagascar
                     </p>
@@ -277,16 +277,21 @@ export default function ContactPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Notre Localisation</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Retrouvez-nous sur le campus de l'Université de Madagascar, au cœur d'Antananarivo.
+              Retrouvez-nous sur le campus de l'Université de Fianarantsoa
             </p>
           </div>
 
-          <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
-            <div className="text-center text-gray-500">
-              <MapPin className="h-12 w-12 mx-auto mb-4" />
-              <p>Carte interactive à intégrer</p>
-              <p className="text-sm">Université de Madagascar, Antananarivo</p>
-            </div>
+          <div className="rounded-lg overflow-hidden h-96 w-full">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3713.1716433515435!2d47.10928237428995!3d-21.461780787829188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21e7bf24d5bd256f%3A0x488072ad41f4d8a2!2sUniversit%C3%A9%20d&#39;Andrainjato!5e0!3m2!1sfr!2smg!4v1754924526261!5m2!1sfr!2smg"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Université d'Andrainjato"
+            ></iframe>
           </div>
         </div>
       </section>
