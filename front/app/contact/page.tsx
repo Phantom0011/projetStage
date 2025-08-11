@@ -1,5 +1,6 @@
 "use client"
 
+import axios from "axios"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,8 @@ import { ArrowLeft, Mail, Phone, MapPin, Clock, Send } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,16 +23,38 @@ export default function ContactPage() {
     category: "",
     message: "",
   })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Ici vous pourriez ajouter la logique d'envoi du formulaire
-    console.log("Formulaire soumis:", formData)
-    alert("Votre message a été envoyé avec succès!")
-  }
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    setSuccess(false)
+    try {
+      await axios.post(`${API_URL}/contact/`, formData)
+      setSuccess(true)
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        category: "",
+        message: "",
+      })
+    } catch (err: any) {
+      setError(
+        err.response?.data?.detail ||
+        err.message ||
+        "Erreur lors de l'envoi du message"
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -160,6 +185,16 @@ export default function ContactPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
+                {success && (
+                  <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
+                    Votre message a été envoyé avec succès !
+                  </div>
+                )}
+                {error && (
+                  <div className="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
+                    {error}
+                  </div>
+                )}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -225,9 +260,9 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full" disabled={loading}>
                     <Send className="h-4 w-4 mr-2" />
-                    Envoyer le Message
+                    {loading ? "Envoi en cours..." : "Envoyer le Message"}
                   </Button>
                 </form>
               </CardContent>
