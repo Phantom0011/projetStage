@@ -1,14 +1,14 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import date
+import datetime
 
 class PostBase(BaseModel):
     title: str
     content: str
-    excerpt: Optional[str] = None
-    category: Optional[str] = None
+    excerpt: str
+    category: str
     author: str
-    date: Optional[date] = None
+    date: Optional[datetime.date] = None
     readTime: Optional[str] = None
     image: Optional[str] = None
     featured: bool = False
@@ -24,7 +24,7 @@ class PostUpdate(BaseModel):
     excerpt: Optional[str] = None
     category: Optional[str] = None
     author: Optional[str] = None
-    date: Optional[date] = None
+    date: Optional[datetime.date] = None
     readTime: Optional[str] = None
     image: Optional[str] = None
     featured: Optional[bool] = None

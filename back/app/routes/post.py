@@ -8,6 +8,7 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 
 @router.post("/", response_model=PostOut)
 def create_post(post: PostCreate, db: Session = Depends(get_db), user=Depends(get_current_user)):
+    print("post recu:", post)
     if user.role != "admin":
         raise HTTPException(status_code=403, detail="Only admin can create posts")
     return post_crud.create_post(db, post)

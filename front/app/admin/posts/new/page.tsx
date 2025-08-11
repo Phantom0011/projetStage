@@ -16,6 +16,7 @@ import { ArrowLeft, Save, Eye } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/AuthContext"
 import { createPost } from "@/lib/auth"
+import axios from "axios"
 
 export default function NewPostPage() {
   const { user, isAdmin } = useAuth()
@@ -38,7 +39,7 @@ export default function NewPostPage() {
 
   const categories = ["Formation", "Partenariat", "Événement", "Technologie", "Recherche"]
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
     setLoading(true)
@@ -56,16 +57,39 @@ export default function NewPostPage() {
           .map((tag) => tag.trim())
           .filter((tag) => tag),
         date: new Date().toISOString().split("T")[0],
+        category: formData.category || "",
+        author: formData.author.trim() || "",
       }
+
+      console.log("Données envoyées au backend :", postData)
 
       await createPost(postData, token)
       router.push("/admin")
     } catch (error: any) {
-      setError(error.message || "Erreur lors de la création de l'article")
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          try {
+            const data = error.response.data;
+            console.error("Erreur serveur détaillée :", data);
+            setError(
+              data.detail
+                ? JSON.stringify(data.detail, null, 2)
+                : JSON.stringify(data, null, 2)
+            );
+          } catch {
+            setError(error.message || "Erreur lors de la création de l'article");
+          }
+        } else {
+          setError(error.message || "Erreur lors de la création de l'article");
+        }
+      } else {
+        setError(error.message || "Erreur lors de la création de l'article");
+      }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
+
 
   const handleChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
