@@ -25,6 +25,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
+import { getPosts } from "@/lib/auth" // Assure-toi que ce chemin est correct
 
 const fadeInUp = {
   initial: { opacity: 0, y: 40 },
@@ -59,14 +60,42 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
 
 export default function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(false)
+  // Define the Post type if not already imported
+  type Post = {
+    id: string
+    title: string
+    excerpt: string
+    date: string
+    image?: string
+    category: string
+    featured?: boolean
+  }
+  
+    const [featuredPosts, setFeaturedPosts] = useState<Post[]>([])
 
-  // Ajouter après la déclaration du state isDarkMode
   useEffect(() => {
     // Émettre un événement personnalisé pour informer le layout du changement de mode
     const event = new CustomEvent("darkModeChange", {
       detail: { isDarkMode },
     })
     window.dispatchEvent(event)
+  }, [isDarkMode])
+
+  useEffect(() => {
+    getPosts()
+      .then((posts) => {
+        // Filtrer les articles à la une et trier par date décroissante
+        const featured = posts
+          .filter((p) => p.featured)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 3) // Prend les 3 plus récents
+          .map((p) => ({
+            ...p,
+            id: String(p.id), // Assure que l'id est une string
+          }))
+        setFeaturedPosts(featured)
+      })
+      .catch(() => setFeaturedPosts([]))
   }, [isDarkMode])
 
   const toggleDarkMode = () => {
@@ -661,85 +690,70 @@ export default function HomePage() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            {[
-              {
-                category: "Formation",
-                title: "Lancement du premier module de formation en SIG",
-                date: "15 janvier 2024",
-                description:
-                  "Ouverture des inscriptions pour le premier module de formation en systèmes d'information géographique.",
-                accent: "sage",
-                image: "/placeholder.svg?height=240&width=400&text=Formation+SIG+-+Étudiants+en+cartographie+numérique",
-              },
-              {
-                category: "Partenariat",
-                title: "Accord stratégique avec l'Université de Bordeaux",
-                date: "8 janvier 2024",
-                description: "Un partenariat pour le développement de la recherche en cartographie numérique.",
-                accent: "coral",
-                image:
-                  "/placeholder.svg?height=240&width=400&text=Partenariat+international+-+Collaboration+académique",
-              },
-              {
-                category: "Événement",
-                title: "Premier hackathon cartographique malgache",
-                date: "20 décembre 2023",
-                description: "Succès du premier hackathon dédié à la cartographie numérique à Madagascar.",
-                accent: "sage",
-                image: "/placeholder.svg?height=240&width=400&text=Hackathon+cartographie+-+Innovation+collaborative",
-              },
-            ].map((article, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <Card
-                  className={`group h-full border-0 shadow-sm hover:shadow-lg transition-all duration-500 overflow-hidden ${
-                    isDarkMode ? "bg-charcoal-800/50 border border-sage-700/30 hover:bg-charcoal-800" : "bg-white"
-                  }`}
-                >
-                  <div className="relative">
-                    <Image
-                      src={article.image || "/placeholder.svg"}
-                      alt={article.title}
-                      width={400}
-                      height={240}
-                      className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div
-                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                        isDarkMode
-                          ? "bg-gradient-to-t from-charcoal-900/40 to-transparent"
-                          : "bg-gradient-to-t from-black/20 to-transparent"
-                      }`}
-                    ></div>
-                    <Badge
-                      className={`absolute top-4 left-4 border-0 backdrop-blur-sm ${
-                        article.accent === "sage" ? "bg-sage-600 text-white" : "bg-coral-500 text-white"
-                      }`}
-                    >
-                      {article.category}
-                    </Badge>
-                  </div>
-                  <CardHeader className="pb-4">
-                    <CardDescription className={`text-sm ${isDarkMode ? "text-gray-400" : "text-charcoal-700"}`}>
-                      {article.date}
-                    </CardDescription>
-                    <CardTitle
-                      className={`text-xl font-semibold leading-tight transition-colors ${
-                        isDarkMode
-                          ? "text-white group-hover:text-sage-400"
-                          : "text-charcoal-900 group-hover:text-sage-700"
-                      }`}
-                    >
-                      {article.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className={`text-sm leading-relaxed ${isDarkMode ? "text-gray-300" : "text-charcoal-800"}`}>
-                      {article.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            {featuredPosts.length === 0 ? (
+              <div className="col-span-3 text-center text-gray-400">Aucune actualité à la une pour le moment.</div>
+            ) : (
+              featuredPosts.map((article, index) => (
+                <motion.div key={article.id} variants={fadeInUp}>
+                  <Card
+                    className={`group h-full border-0 shadow-sm hover:shadow-lg transition-all duration-500 overflow-hidden ${
+                      isDarkMode ? "bg-charcoal-800/50 border border-sage-700/30 hover:bg-charcoal-800" : "bg-white"
+                    }`}
+                  >
+                    <div className="relative">
+                      <Image
+                        src={article.image || "/placeholder.svg"}
+                        alt={article.title}
+                        width={400}
+                        height={240}
+                        className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div
+                        className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-t from-charcoal-900/40 to-transparent"
+                            : "bg-gradient-to-t from-black/20 to-transparent"
+                        }`}
+                      ></div>
+                      <Badge
+                        className={`absolute top-4 left-4 border-0 backdrop-blur-sm ${
+                          article.category === "Formation"
+                            ? "bg-sage-600 text-white"
+                            : article.category === "Partenariat"
+                            ? "bg-coral-500 text-white"
+                            : "bg-sage-400 text-white"
+                        }`}
+                      >
+                        {article.category}
+                      </Badge>
+                    </div>
+                    <CardHeader className="pb-4">
+                      <CardDescription className={`text-sm ${isDarkMode ? "text-gray-400" : "text-charcoal-700"}`}>
+                        {new Date(article.date).toLocaleDateString("fr-FR", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </CardDescription>
+                      <CardTitle
+                        className={`text-xl font-semibold leading-tight transition-colors ${
+                          isDarkMode
+                            ? "text-white group-hover:text-sage-400"
+                            : "text-charcoal-900 group-hover:text-sage-700"
+                        }`}
+                      >
+                        {article.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? "text-gray-300" : "text-charcoal-800"}`}>
+                        {article.excerpt}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))
+            )}
           </motion.div>
         </div>
       </section>
