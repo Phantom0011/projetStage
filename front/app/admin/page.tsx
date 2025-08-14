@@ -33,9 +33,6 @@ export default function AdminPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (!loading && !isAdmin) {
-      router.push("/login")
-    }
   }, [loading, isAdmin, router])
 
   useEffect(() => {
@@ -50,10 +47,9 @@ export default function AdminPage() {
       }
     }
 
-    if (isAdmin) {
-      fetchPosts()
-    }
-  }, [isAdmin])
+    // Appeler fetchPosts pour tous les utilisateurs connectés
+    fetchPosts()
+  }, [])
 
   const handleDeletePost = async (id: number) => {
     if (!confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
@@ -81,10 +77,6 @@ export default function AdminPage() {
         </div>
       </div>
     )
-  }
-
-  if (!isAdmin) {
-    return null
   }
 
   return (
@@ -172,12 +164,14 @@ export default function AdminPage() {
                     Nouvel Article
                   </Link>
                 </Button>
-                <Button asChild variant="secondary">
-                  <Link href="/admin/users/new">
-                    <User className="h-4 w-4 mr-2" />
-                    Nouvel Utilisateur
-                  </Link>
-                </Button>
+                {user?.role === "admin" && (
+                  <Button asChild variant="secondary">
+                    <Link href="/admin/users/new">
+                      <User className="h-4 w-4 mr-2" />
+                      Nouvel Utilisateur
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>

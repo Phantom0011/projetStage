@@ -19,7 +19,7 @@ import { createPost } from "@/lib/auth"
 import axios from "axios"
 
 export default function NewPostPage() {
-  const { user, isAdmin } = useAuth()
+  const { user } = useAuth() // retire isAdmin ici
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -93,20 +93,6 @@ export default function NewPostPage() {
 
   const handleChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Accès refusé</h1>
-          <p className="text-gray-600 mb-4">Vous devez être administrateur pour accéder à cette page.</p>
-          <Button asChild>
-            <Link href="/login">Se connecter</Link>
-          </Button>
-        </div>
-      </div>
-    )
   }
 
   return (

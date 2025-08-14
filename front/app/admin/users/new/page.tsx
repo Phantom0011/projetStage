@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import axios from "axios"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -14,9 +13,8 @@ export default function NewUserPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
     password: "",
-    role: "user",
+    role: "public",
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -32,13 +30,12 @@ export default function NewUserPage() {
     setError(null)
     setSuccess(false)
     try {
-      await axios.post(`${API_URL}/users/`, formData)
+      await axios.post(`${API_URL}/register/`, formData)
       setSuccess(true)
       setFormData({
         username: "",
-        email: "",
         password: "",
-        role: "user",
+        role: "public",
       })
       setTimeout(() => router.push("/admin"), 1500)
     } catch (err: any) {
@@ -87,18 +84,6 @@ export default function NewUserPage() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email *
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                required
-              />
-            </div>
-            <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Mot de passe *
               </label>
@@ -120,7 +105,7 @@ export default function NewUserPage() {
                 onChange={(e) => handleChange("role", e.target.value)}
                 className="w-full border rounded px-3 py-2"
               >
-                <option value="user">Utilisateur</option>
+                <option value="public">Public</option>
                 <option value="admin">Administrateur</option>
               </select>
             </div>
