@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import axios from "axios"
+import Loader from "@/components/loader"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -50,71 +51,74 @@ export default function NewUserPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Créer un nouvel utilisateur</CardTitle>
-          <CardDescription>
-            Remplissez le formulaire pour ajouter un utilisateur au système.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {success && (
-            <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
-              Utilisateur créé avec succès !
-            </div>
-          )}
-          {error && (
-            <div className="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
-              {error}
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Nom d'utilisateur *
-              </label>
-              <Input
-                id="username"
-                type="text"
-                value={formData.username}
-                onChange={(e) => handleChange("username", e.target.value)}
-                required
-                autoFocus
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Mot de passe *
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={formData.password}
-                onChange={(e) => handleChange("password", e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                Rôle
-              </label>
-              <select
-                id="role"
-                value={formData.role}
-                onChange={(e) => handleChange("role", e.target.value)}
-                className="w-full border rounded px-3 py-2"
-              >
-                <option value="public">Public</option>
-                <option value="admin">Administrateur</option>
-              </select>
-            </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Création..." : "Créer l'utilisateur"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      {loading && <Loader />}
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Créer un nouvel utilisateur</CardTitle>
+            <CardDescription>
+              Remplissez le formulaire pour ajouter un utilisateur au système.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {success && (
+              <div className="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
+                Utilisateur créé avec succès !
+              </div>
+            )}
+            {error && (
+              <div className="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
+                {error}
+              </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  Nom d'utilisateur *
+                </label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={formData.username}
+                  onChange={(e) => handleChange("username", e.target.value)}
+                  required
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  Mot de passe *
+                </label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleChange("password", e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                  Rôle
+                </label>
+                <select
+                  id="role"
+                  value={formData.role}
+                  onChange={(e) => handleChange("role", e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                >
+                  <option value="public">Public</option>
+                  <option value="admin">Administrateur</option>
+                </select>
+              </div>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Création..." : "Créer l'utilisateur"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   )
 }
