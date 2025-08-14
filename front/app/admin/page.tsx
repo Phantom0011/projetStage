@@ -165,12 +165,20 @@ export default function AdminPage() {
                 <CardTitle>Gestion des Articles</CardTitle>
                 <CardDescription>Gérez les actualités et publications de Madatlas</CardDescription>
               </div>
-              <Button asChild>
-                <Link href="/admin/posts/new">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Nouvel Article
-                </Link>
-              </Button>
+              <div className="flex gap-2">
+                <Button asChild>
+                  <Link href="/admin/posts/new">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Nouvel Article
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary">
+                  <Link href="/admin/users/new">
+                    <User className="h-4 w-4 mr-2" />
+                    Nouvel Utilisateur
+                  </Link>
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
