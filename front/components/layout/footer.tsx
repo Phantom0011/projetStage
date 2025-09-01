@@ -125,7 +125,7 @@ export default function Footer() {
         {/* Séparateur */}
         <div className="border-t border-sage-200 mt-16 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-charcoal-500">© 2024 Madatlas. Tous droits réservés.</div>
+            <div className="text-sm text-charcoal-500">© 2025 Madatlas. Tous droits réservés.</div>
             <div className="flex space-x-8 text-sm">
               {[
                 { name: "Mentions légales", href: "/legal" },

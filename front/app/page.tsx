@@ -31,7 +31,6 @@ import Loader from "@/components/loader"
 const fadeInUp = {
   initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: [0.25, 0.25, 0, 1] },
 }
 
 const staggerContainer = {
@@ -444,7 +443,11 @@ export default function HomePage() {
                     color: "coral",
                   },
                 ].map((item, index) => (
-                  <motion.div key={index} variants={fadeInUp}>
+                  <motion.div
+                    key={index}
+                    variants={fadeInUp}
+                    transition={{ duration: 0.8, ease: [0.25, 0.25, 0, 1] }}
+                  >
                     <Card
                       className={`group h-full border-0 shadow-sm hover:shadow-lg transition-all duration-500 ${
                         isDarkMode
